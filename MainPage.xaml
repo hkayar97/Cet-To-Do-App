@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CetTodoApp.MainPage">
+
+    <Grid Padding="20" RowDefinitions="Auto,*">
+
+        <Border Grid.Row="0" Margin="10">
+            <VerticalStackLayout Padding="10">
+
+                <Entry x:Name="TitleEntry" Placeholder="Enter a todo item"/>
+
+                <HorizontalStackLayout Padding="10">
+                    <Label Text="Due Date :" VerticalOptions="Center"/>
+                    <DatePicker x:Name="DueDate" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Button Text="Save" Clicked="AddButton_OnClicked"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView Grid.Row="1"
+                        x:Name="TasksListView"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout>
+                            
+                            <Label Text="{Binding Title}" FontSize="18">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
+                                        <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                        <Setter Property="TextColor" Value="Gray"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsOverdue}" Value="True">
+                                        <Setter Property="TextColor" Value="Red"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+
+                            <Label Text="{Binding DueDate, StringFormat='Due: {0:dd/MM/yyyy}'}" FontSize="13">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
+                                        <Setter Property="TextColor" Value="Gray"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsOverdue}" Value="True">
+                                        <Setter Property="TextColor" Value="Red"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </VerticalStackLayout>
+
+                        <CheckBox Grid.Column="1" IsChecked="{Binding IsComplete}" CheckedChanged="CheckBox_OnCheckedChanged"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
